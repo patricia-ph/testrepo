@@ -1,0 +1,65 @@
+{% layout none %}
+
+<template data-html="content">
+  {% liquid
+    assign selected_variant = product.selected_variant
+
+    if product.variants.size == 1 or settings.select_first_available_variant
+      assign selected_variant = product.selected_or_first_available_variant
+    endif
+  %}
+  {%-
+    render 'product',
+    product: product,
+    sold_out_options: settings.sold_out_options,
+    selected_variant: selected_variant,
+    width: width,
+    css_class: css_class,
+    display_sku: nil,
+    display_social_buttons: nil,
+    display_tags: nil,
+    display_thumbnails: settings.show_product_gallery_thumbnails,
+    display_type: nil,
+    display_vendor: settings.quickshop_show_vendor,
+    enable_product_lightbox: nil,
+    enable_shopify_product_badges: nil,
+    enable_thumbnail_slider: nil,
+    enable_zoom: settings.quickshop_magnify_images,
+    gallery_arrows: settings.quickshop_arrows,
+    product_description_position: 'top',
+    product_height: nil,
+    product_images_position: settings.quickshop_gallery_position,
+    set_product_height: nil,
+    show_payment_button: false,
+    size_chart: settings.size_chart,
+    slideshow_transition: settings.quickshop_gallery_transition_styles,
+    stickers_enabled: settings.stickers_enabled,
+    tag_style: settings.tag_style,
+    thumbnail_position: settings.quickshop_thumbnail_position,
+    video_looping: nil,
+    section_id: "quickshop",
+  -%}
+
+  <script
+    type="application/json"
+    data-section-id="quickshop"
+    data-section-data
+  >
+    {
+      "gallery_arrows": {{ settings.quickshop_arrows | json }},
+      "thumbnail_arrows": {{ settings.quickshop_arrows | json }},
+      "enable_zoom": {{ settings.quickshop_magnify_images | json }},
+      "enable_product_lightbox": {{ false | json }},
+      "enable_thumbnail_slider": {{ settings.enable_thumbnail_slider | json }},
+      "slideshow_speed": {{ settings.quickshop_speed | json }},
+      "slideshow_transition": {{ settings.quickshop_gallery_transition_styles | json }},
+      "thumbnails_enabled": {{ settings.show_product_gallery_thumbnails | json }},
+      "thumbnail_position": {{ settings.quickshop_thumbnail_position | json }},
+      "product_media_amount": {{ product.media.size }},
+      "template": "classic"
+    }
+  </script>
+</template>
+
+
+
